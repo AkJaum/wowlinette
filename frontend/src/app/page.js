@@ -183,7 +183,7 @@ export default function Home() {
                             <h3>Formato do arquivo:</h3>
                             <p>
                                 O arquivo .zip deve conter subpastas no formato <code>ex00</code>, <code>ex01</code>, etc.
-                                cada pasta deve conter os arquivos .c de cada exercício.
+                                Cada pasta deve conter os arquivos .c de cada exercício.
                             </p>
                             <h3>Resultado:</h3>
                             <p>
@@ -192,8 +192,8 @@ export default function Home() {
                             </p>
                             <h3>Projeto feito por AkJaum</h3>
                             <div className="info-labels">
-                                <a href="https://github.com/AkJaum">
-                                    <img src="https://cdn-icons-png.flaticon.com/256/25/25231.png" target="_blank" className="label"></img>
+                                <a href="https://github.com/AkJaum" target="_blank">
+                                    <img src="https://cdn-icons-png.flaticon.com/256/25/25231.png" className="label"></img>
                                 </a>
                                 <a href="https://www.linkedin.com/in/akjaum/" target="_blank">
                                     <img src="https://static.vecteezy.com/system/resources/previews/023/986/970/non_2x/linkedin-logo-linkedin-logo-transparent-linkedin-icon-transparent-free-free-png.png" className="label-link"></img>
