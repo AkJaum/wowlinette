@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File, Form
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import os
@@ -43,6 +43,9 @@ async def wowlinette(file: UploadFile = File(...), list_name: str = Form("list_0
         file: The ZIP file to evaluate
         list_name: The list to test against (e.g., "list_00", "list_01")
     """
+    if not file.filename or not file.filename.lower().endswith(".zip"):
+        raise HTTPException(status_code=400, detail='O arquivo enviado não é ".zip"')
+
     # Create a unique temporary directory for this request
     request_id = str(uuid.uuid4())
     temp_dir = os.path.join(tempfile.gettempdir(), f"wowlinette_{request_id}")

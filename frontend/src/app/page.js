@@ -42,6 +42,15 @@ export default function Home() {
         const file = event.target.files[0]
         if (!file) return
 
+        if (!file.name.toLowerCase().endsWith(".zip")) {
+            window.alert('O arquivo enviado não é ".zip"')
+            if (fileInputRef.current) {
+                fileInputRef.current.value = ""
+            }
+            setFileName("Upload")
+            return
+        }
+
         setFileName(file.name)
 
         if (!API_URL) {
