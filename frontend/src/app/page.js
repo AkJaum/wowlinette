@@ -7,6 +7,7 @@ const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/$/, "")
 export default function Home() {
     const [results, setResults] = useState(null)
     const [lists, setLists] = useState([])
+    const [listsLoading, setListsLoading] = useState(true)
     const [selectedList, setSelectedList] = useState("list_00")
     const [loading, setLoading] = useState(false)
     const [fileName, setFileName] = useState("Upload")
@@ -20,8 +21,11 @@ export default function Home() {
     }, [])
 
     async function fetchLists() {
+        setListsLoading(true)
+
         if (!API_URL) {
             console.error("NEXT_PUBLIC_BACKEND_URL não está definida")
+            setListsLoading(false)
             return
         }
 
@@ -35,6 +39,8 @@ export default function Home() {
             setLists(data.lists || [])
         } catch (error) {
             console.error("Erro ao carregar listas:", error)
+        } finally {
+            setListsLoading(false)
         }
     }
 
@@ -43,7 +49,13 @@ export default function Home() {
         if (!file) return
 
         if (!file.name.toLowerCase().endsWith(".zip")) {
-            window.alert('O arquivo enviado não é ".zip"')
+            setResults({
+                status: "error",
+                message: "O arquivo não é .zip",
+                exercises: []
+            })
+            setShowModal(true)
+            setLoading(false)
             if (fileInputRef.current) {
                 fileInputRef.current.value = ""
             }
@@ -128,13 +140,17 @@ export default function Home() {
             <div className="controls">
                 <div>
                     <p>Selecione a lista a ser avaliada</p>
-                    <select value={selectedList} onChange={(e) => setSelectedList(e.target.value)}>
-                        {lists.map((list) => (
-                            <option key={list} value={list}>
-                                {list}
-                            </option>
-                        ))}
-                    </select>
+                    {listsLoading ? (
+                        <p>Carregando...</p>
+                    ) : (
+                        <select value={selectedList} onChange={(e) => setSelectedList(e.target.value)}>
+                            {lists.map((list) => (
+                                <option key={list} value={list}>
+                                    {list}
+                                </option>
+                            ))}
+                        </select>
+                    )}
                 </div>
 
                 <button onClick={handleButtonClick} className="file-btn">
